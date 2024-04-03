@@ -38,7 +38,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/api/login', {
+      const response = await axios.post('https://personaltaskmanager-s8fw.onrender.com/login', {
         username,
         password,
       });
@@ -62,14 +62,14 @@ const Login = () => {
         </Typography>
       </CardHeader>
       <CardBody className="flex flex-col gap-4">
-        <Input label="Email" size="lg" />
-        <Input label="Password" size="lg" />
+        <Input label="Email" size="lg" onChange={(e) => setUsername(e.target.value)}/>
+        <Input label="Password" size="lg" onChange={(e) => setPassword(e.target.value)} />
         <div className="-ml-2.5">
           <Checkbox label="Remember Me" />
         </div>
       </CardBody>
       <CardFooter className="pt-0">
-        <Button variant="gradient" fullWidth>
+        <Button variant="gradient" fullWidth onClick={handleLogin}>
           Sign In
         </Button>
         <Typography variant="small" className="mt-6 flex justify-center">

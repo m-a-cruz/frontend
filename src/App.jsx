@@ -1,6 +1,6 @@
 import React from "react"
 import Login from "./components/login"
-// import Dashboard from './components/dashboard';
+import Dashboard from './components/dashboard';
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -9,18 +9,14 @@ function App () {
   return (
     <>
 
-    <Router>
+    {/* <Router> */}
       <Routes>
-        <Route path="/" element={<Login />} />
-        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
-    </Router>
+    {/* </Router> */}
     </>
   )
 };
 
-
-
-
- 
 export default App
