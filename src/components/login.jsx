@@ -62,8 +62,8 @@ const Login = () => {
         </Typography>
       </CardHeader>
       <CardBody className="flex flex-col gap-4">
-        <Input label="Email" size="lg" onChange={(e) => setUsername(e.target.value)}/>
-        <Input label="Password" size="lg" onChange={(e) => setPassword(e.target.value)} />
+        <Input label="Username" size="lg" onChange={(e) => setUsername(e.target.value)}/>
+        <Input label="Password" type='password' size="lg" onChange={(e) => setPassword(e.target.value)} />
         <div className="-ml-2.5">
           <Checkbox label="Remember Me" />
         </div>
