@@ -20,10 +20,6 @@ import App from './App';
       element: <App/>,
       children: [
         {
-          path: "/login",
-          element: <Login />,
-        },
-        {
           path: "/dashboard",
           element: <Dashboard />,
         },
@@ -44,6 +40,10 @@ import App from './App';
           element: <DoItNow />,
         },
       ]
+    },
+    {
+      path: "/login",
+      element: <Login />,
     },
     
   ])

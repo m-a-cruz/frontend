@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
 import { OverlayPanel} from "primereact/overlaypanel";
+import { MdFormatListBulletedAdd } from "react-icons/md";
 function Navigation() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const op = useRef(null);
@@ -88,7 +89,7 @@ function Navigation() {
             </li>
             <li className="flex items-center justify-center">
               <Link to="/addtask" className="flex flex-col items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-                  <BsListTask style={{width:"25px", height:"25px"}}/>
+                  <MdFormatListBulletedAdd  style={{width:"25px", height:"25px"}}/>
                   <span className="mt-1">Add Task</span>
               </Link>
             </li>
@@ -99,31 +100,17 @@ function Navigation() {
                 </Link>
             </li>
             <li className="flex items-center justify-center">
-                <Link to="/DoItNow" className="flex flex-col items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
+                <Link to="/doitnow" className="flex flex-col items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
                   <GiNotebook style={{width:"25px", height:"25px"}}/>
                   <span className="mt-1">Do It Now</span>
                 </Link>
             </li>
-            <li className="flex items-center justify-center">
-                <Button color="white" onClick={handleLogout}>
-                    Logout
-                </Button>
-            </li>
           </ul>
+          <div className="flex items-center justify-center" style={{}}>
+            <Button color="white" onClick={handleLogout}>
+              Logout
+            </Button>
         </div>
-
-        <div>
-        <OverlayPanel ref={op} style={{width: '350px'}}>
-                <div className="menu-container" >
-                    <div className="menu-item"> 
-                        <Link to="/user/change-password" className="menu-link">&nbsp;&nbsp;Change Password</Link>
-                    
-                        <Link  className="menu-link">&nbsp;&nbsp;Log Out</Link>
-                    
-                        <Link  className="menu-link">&nbsp;&nbsp;Delete Account</Link>
-                    </div>
-                  </div>
-            </OverlayPanel>
         </div>
       </aside>
     </div>
