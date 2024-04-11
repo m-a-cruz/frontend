@@ -3,7 +3,7 @@ import React from 'react'
 const addtask = () => {
   return (
     <>
-    <div>
+    <div style={{marginLeft:"300px"}}>
         Add Task
     </div>
       

@@ -4,7 +4,7 @@ import Navigation from './navigation';
 const completed = () => {
   return (
     <>
-    <div>
+    <div style={{marginLeft:"300px"}}>
       Completed
     </div>
     </>

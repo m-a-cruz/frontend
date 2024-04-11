@@ -6,7 +6,7 @@ const dashboard = () => {
 
     return (
         <>
-        <div>
+        <div style={{marginLeft:"300px"}}>
             Dashboard 
         </div>
         </>

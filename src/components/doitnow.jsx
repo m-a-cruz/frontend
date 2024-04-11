@@ -4,7 +4,7 @@ import Navigation from './navigation';
 const doitnow = () => {
   return (
     <>
-    <div>
+    <div style={{marginLeft:"300px"}}>
       Do It Now
     </div>
     </>
