@@ -13,7 +13,6 @@ function App () {
   return (
     <>
     <Navigation />
-    {/* <Router> */}
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
@@ -21,7 +20,6 @@ function App () {
         <Route path="/completed" element={<Completed />} />
         <Route path="/doitnow" element={<DoItNow />} />
       </Routes>
-    {/* </Router> */}
     </>
   )
 };

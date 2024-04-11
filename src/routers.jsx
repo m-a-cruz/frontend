@@ -17,31 +17,34 @@ import App from './App';
   
     {
       path: '/',
-      element: <Login/>
+      element: <App/>,
+      children: [
+        {
+          path: "/login",
+          element: <Login />,
+        },
+        {
+          path: "/dashboard",
+          element: <Dashboard />,
+        },
+        {
+          path: "/alltask",
+          element: <AllTask />,
+        },
+        {
+          path: "/addtask",
+          element: <AddTask />,
+        },
+        {
+          path: "/completed",
+          element: <Completed />,
+        },
+        {
+          path: "/doitnow",
+          element: <DoItNow />,
+        },
+      ]
     },
-    {
-      path: "/login",
-      element: <Login />,
-    },
-    {
-      path: "/dashboard",
-      element: <Dashboard />,
-    },
-    {
-      path: "/alltask",
-      element: <AllTask />,
-    },
-    {
-      path: "/addtask",
-      element: <AddTask />,
-    },
-    {
-      path: "/completed",
-      element: <Completed />,
-    },
-    {
-      path: "/doitnow",
-      element: <DoItNow />,
-    },
+    
   ])
 export default routers;
