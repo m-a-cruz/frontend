@@ -4,6 +4,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import Navigation from './navigation';
 import { jwtDecode } from 'jwt-decode';
+import { IoAddCircleOutline } from "react-icons/io5";
 
 const AllTask = () => {
   const [tasks, setTasks] = useState([]);
@@ -29,10 +30,9 @@ const AllTask = () => {
 
   return (
     <>
-
-<div className='flex justify-center flex-wrap'>
+    <div className='flex justify-center flex-wrap'>
       {tasks.map(task => (
-        <div key={task.id} className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mr-4 mb-4">
+        <div key={task.id} className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mr-4 mb-4"  style={{backgroundImage:"url('https://i.pinimg.com/564x/aa/7c/98/aa7c98d4b8918fb53ad7fa1fb3f74e4c.jpg')", backgroundSize: "cover", imageRendering: "pixelated"}}>
           <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{task.title}</h2>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{task.description}</p>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Category: {task.category}</p>
@@ -44,6 +44,8 @@ const AllTask = () => {
           </a>
         </div>
       ))}
+      <button type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"><IoAddCircleOutline />Add Task</button>
+      
     </div>
       
     </>
