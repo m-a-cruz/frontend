@@ -1,9 +1,6 @@
-
-
 import {
     createBrowserRouter,
     RouterProvider
-  
   } from 'react-router-dom';
   import Login from './components/login';
   import Dashboard from './components/dashboard';
