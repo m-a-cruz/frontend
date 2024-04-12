@@ -18,7 +18,7 @@ const AllTask = () => {
       const headers = {
         Authorization:  response.token,
         'Content-Type': 'application/json',
-      };
+      };git 
 
       const { data } = await axios.get('https://personaltaskmanager-s8fw.onrender.com/tasks', { headers: headers });
       setTasks(data);

@@ -7,7 +7,6 @@ import {
   import AllTask from './components/allTask';
   import Completed from './components/completed';
   import DoItNow from './components/doitnow';
-  import AddTask from './components/addtask';
 import App from './App';
   
   const routers = createBrowserRouter([
@@ -23,10 +22,6 @@ import App from './App';
         {
           path: "/alltask",
           element: <AllTask />,
-        },
-        {
-          path: "/addtask",
-          element: <AddTask />,
         },
         {
           path: "/completed",
