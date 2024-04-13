@@ -6,9 +6,9 @@ import { MdDelete } from "react-icons/md";
 
 const AllTask = () => {
   const [tasks, setTasks] = useState([]);
-  const [editingTask, setEditingTask] = useState(null); // To store the task being edited
-  const [isModalOpen, setIsModalOpen] = useState(false); // To manage the visibility of the modal
-  const [isAddingTask, setIsAddingTask] = useState(false); // To track if modal is for adding task
+  const [editingTask, setEditingTask] = useState(null); 
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [isAddingTask, setIsAddingTask] = useState(false); 
 
   useEffect(() => {
     fetchTask();
@@ -47,7 +47,7 @@ const AllTask = () => {
   };
 
   const handleSubmit = () => {
-    // Logic to submit form data (adding or editing task)
+    
   };
 
   return (
