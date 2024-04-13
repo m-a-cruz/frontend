@@ -106,8 +106,8 @@ function Navigation() {
                 </Link>
             </li>
           </ul>
-          <div className="flex items-center justify-center" style={{}}>
-            <Button color="white" onClick={handleLogout}>
+          <div className="absolute bottom-5 left-10 pb-8 pl-10">
+            <Button color="red" onClick={handleLogout}>
               Logout
             </Button>
         </div>
