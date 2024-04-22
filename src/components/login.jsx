@@ -80,8 +80,11 @@ const Login = () => {
             variant="small"
             color="blue-gray"
             className="ml-1 font-bold"
+            
           >
-            Sign up
+            <a href="/register" className="font-medium text-gray-900">
+              Sign Up
+            </a>
           </Typography>
         </Typography>
       </CardFooter>

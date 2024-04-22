@@ -7,6 +7,7 @@ import {
   import AllTask from './components/allTask';
   import Completed from './components/completed';
   import DoItNow from './components/doitnow';
+  import Register from './components/register';
 import App from './App';
   
   const routers = createBrowserRouter([
@@ -36,6 +37,10 @@ import App from './App';
     {
       path: "/login",
       element: <Login />,
+    },
+    {
+      path: "/register",
+      element: <Register />,
     },
     
   ])

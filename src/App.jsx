@@ -19,6 +19,7 @@ function App () {
         <Route path="/alltask" element={<AllTask />} />
         <Route path="/completed" element={<Completed />} />
         <Route path="/doitnow" element={<DoItNow />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </>
   )
