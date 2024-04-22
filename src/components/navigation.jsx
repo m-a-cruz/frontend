@@ -2,12 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import {  GiAbstract050, GiNotebook, } from "react-icons/gi";
 import { FaClipboardCheck, } from "react-icons/fa";
 import { BsListTask } from "react-icons/bs";
-import { IoMdLogOut } from "react-icons/io";
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
-import { OverlayPanel} from "primereact/overlaypanel";
-import { MdFormatListBulletedAdd } from "react-icons/md";
 function Navigation() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const op = useRef(null);
@@ -85,12 +82,6 @@ function Navigation() {
               <Link to="/allTask" className="flex flex-col items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
                   <BsListTask style={{width:"25px", height:"25px"}}/>
                   <span className="mt-1">All Task</span>
-              </Link>
-            </li>
-            <li className="flex items-center justify-center">
-              <Link to="/addtask" className="flex flex-col items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-                  <MdFormatListBulletedAdd  style={{width:"25px", height:"25px"}}/>
-                  <span className="mt-1">Add Task</span>
               </Link>
             </li>
             <li className="flex items-center justify-center">
