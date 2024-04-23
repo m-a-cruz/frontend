@@ -72,6 +72,7 @@ const AllTask = () => {
     setTitle('');
     setDescription('');
     setCategoryId(1);
+    setStatusId(1);
     setUserId(response.user_id);
     
     setIsAddingTask(true);
@@ -89,6 +90,7 @@ const AllTask = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category_id, setCategoryId] = useState('');
+  const [status_id, setStatusId] = useState('');
   const [user_id, setUserId] = useState('');
   
   const handleSubmitAddingTask = async (event) => {
@@ -99,6 +101,7 @@ const AllTask = () => {
     formData.append('title', title);
     formData.append('description', description);
     formData.append('category_id', category_id);
+    formData.append('status_id', status_id);
     formData.append('user_id', response.user_id);
 
     await axios.post('https://personaltaskmanager-s8fw.onrender.com/task', formData, { headers: headers }).then(({data}) => {
@@ -106,6 +109,7 @@ const AllTask = () => {
       setTitle('');
       setDescription('');
       setCategoryId('');
+      setStatusId('');
       setUserId('');
       setIsModalOpen(false);
 
@@ -131,11 +135,13 @@ const AllTask = () => {
   const handleUpdateTask = async (event) => {
     event.preventDefault();
     const id = editingTask.id;
+    const status_id = editingTask.status_id;
     const formData = new FormData();
 
     formData.append('title', editingTask.title);
     formData.append('description', editingTask.description);
     formData.append('category_id', editingTask.category_id);
+    formData.append('status_id', editingTask.status_id);
     formData.append('user_id', editingTask.user_id);
 
     await axios.put(`https://personaltaskmanager-s8fw.onrender.com/task/${id}`, formData, { headers: headers }).then(({data}) => {
@@ -194,8 +200,9 @@ const AllTask = () => {
     <>
       <div className='flex justify-center flex-wrap'>
         {tasks.map(task => (
+          (task.user_id === response.user_id) && (
           <TaskItem key={task.id} categories={categories} task={task} onEdit={handleEdit} onDelete={handleDeleteTask}/>
-        ))}
+        )))}
         <button type="button" onClick={handleAddTask} className="flex items-center justify-center focus:outline-none rounded-lg p-0.5 me-2 mb-2">
           <IoAddCircleOutline className="text-gray-900 dark:text-white" style={{ fontSize: '2.5rem' }} />
           <span className="sr-only">Add Task</span>
