@@ -5,6 +5,8 @@ import { BsListTask } from "react-icons/bs";
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Navigation() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const op = useRef(null);
@@ -32,6 +34,7 @@ function Navigation() {
     try{
         localStorage.removeItem("token");
         navigate("/login");
+        toast.success(response.message);
     }catch (error) {
         console.error("Login failed:", error);
     }
@@ -99,6 +102,7 @@ function Navigation() {
           </ul>
           <div className="absolute bottom-5 left-10 pb-8 pl-10">
             <Button color="red" onClick={handleLogout}>
+            <ToastContainer/>
               Logout
             </Button>
         </div>

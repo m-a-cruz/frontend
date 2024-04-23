@@ -4,6 +4,7 @@ import Dashboard from './components/dashboard';
 import AllTask from './components/allTask';
 import Completed from './components/completed';
 import DoItNow from './components/doitnow';
+import Register from "./components/register";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navigation from "./components/navigation";

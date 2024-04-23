@@ -5,6 +5,8 @@ import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
 import Swal from 'sweetalert2';
 import { data } from 'autoprefixer';
+import { ToastContainer, Toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const AllTask = () => {
