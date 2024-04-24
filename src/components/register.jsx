@@ -23,13 +23,6 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     const status_id = 1;
-    console.log(name);
-    console.log(email);
-    console.log(username);
-    console.log(password);
-    console.log(role_id);
-    console.log(status_id);
-
 
     try {
       const response = await axios.post('https://personaltaskmanager-s8fw.onrender.com/register', {
@@ -132,9 +125,7 @@ const Register = () => {
           </Button>
           <Typography color="gray" className="mt-4 text-center font-normal">
             Already have an account?{' '}
-            {/* <a href="/login" className="font-medium text-gray-900"> */}
               Sign In
-            {/* </a> */}
           </Typography>
         </form>
       </Card>

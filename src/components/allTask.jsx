@@ -196,7 +196,7 @@ const AllTask = () => {
 
   return (
     <>
-      <div className='flex justify-center flex-wrap'>
+      <div className='flex flex-wrap'>
         {tasks.map(task => (
           (task.user_id === response.user_id) && (
           <TaskItem key={task.id} categories={categories} task={task} onEdit={handleEdit} onDelete={handleDeleteTask}/>

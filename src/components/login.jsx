@@ -76,15 +76,14 @@ const Login = () => {
           Don&apos;t have an account?
           <Typography
             as="a"
-            href="#signup"
+            href="/register"
             variant="small"
             color="blue-gray"
-            className="ml-1 font-bold"
+            className="ml-1 font-bold text-gray-900"
+            
             
           >
-            <a href="/register" className="font-medium text-gray-900">
               Sign Up
-            </a>
           </Typography>
         </Typography>
       </CardFooter>
