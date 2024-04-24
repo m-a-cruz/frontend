@@ -311,6 +311,8 @@ const TaskItem = ({ categories,task, onEdit, onDelete }) => {
         <button onClick={() => onDelete(task.id)} className="inline-flex items-center justify-center w-8 h-8 text-purple-500 rounded-full bg-transparent hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600">
           <MdDelete size={25} />
         </button>
+        <input id="default-checkbox"  type="checkbox" value="" className=" inline-flex items-center justify-center new-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
+        <label for="default-checkbox" className="inline-flex items-center justify-center ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Mark as Completed</label>
       </div>
     </div>
   );
