@@ -110,15 +110,10 @@ const Login = () => {
             href="/register"
             variant="small"
             color="blue-gray"
-            className="ml-1 font-bold text-gray-900"
-            
+            className="ml-1 font-bold"
             
           >
-<<<<<<< HEAD
-              Sign Up
-=======
            Register here
->>>>>>> fa7f5ffa522d950198e67b213314c8af6a0cf0da
           </Typography>
         </Typography>
       </CardFooter>
