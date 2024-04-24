@@ -12,6 +12,10 @@ import {
   Button,
 } from "@material-tailwind/react";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 const Login = () => {
 
   const navigate = useNavigate();
@@ -44,8 +48,31 @@ const Login = () => {
       });
       localStorage.setItem('token', JSON.stringify(response.data));
       navigate("/dashboard");
+      console.log('login successful');
+      toast.success('🦄 Login success!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+      
     } catch (error) {
       console.error('Login failed:', error);
+      toast.error('Login failed. Please check your credentials!', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        
+      });
     }
   };
 
@@ -70,8 +97,12 @@ const Login = () => {
       </CardBody>
       <CardFooter className="pt-0">
         <Button variant="gradient" fullWidth onClick={handleLogin}>
+          <ToastContainer/>
           Sign In
         </Button>
+        <div className="mt-2">  {/* Added a separate div */}
+          <ToastContainer/>
+        </div>
         <Typography variant="small" className="mt-6 flex justify-center">
           Don&apos;t have an account?
           <Typography
@@ -83,7 +114,11 @@ const Login = () => {
             
             
           >
+<<<<<<< HEAD
               Sign Up
+=======
+           Register here
+>>>>>>> fa7f5ffa522d950198e67b213314c8af6a0cf0da
           </Typography>
         </Typography>
       </CardFooter>
