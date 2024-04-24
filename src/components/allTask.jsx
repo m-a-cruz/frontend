@@ -103,6 +103,7 @@ const AllTask = () => {
     formData.append('status_id', status_id);
     formData.append('user_id', response.user_id);
 
+
     await axios.post('https://personaltaskmanager-s8fw.onrender.com/task', formData, { headers: headers }).then(({data}) => {
       fetchTask();
       setTitle('');
@@ -190,17 +191,60 @@ const AllTask = () => {
         icon: 'error'
       })
     }else{
-      await axios.delete(`https://personaltaskmanager-s8fw.onrender.com/task/${id}`, { headers: headers });
+      await axios.put(`https://personaltaskmanager-s8fw.onrender.com/task/${id}`, formData, { headers: headers }).then(({data}) => {
       fetchTask();
+      setIsModalOpen(false);
+      });
+    }
+  }
+
+  const handleDone = async (task) => {
+    const id = task.id;
+    const isConfirmed = await Swal.fire({
+      title: 'Are you sure?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirm'
+    }).then((result) => {
+      Swal.fire({
+        title: 'Done Successfully!',
+        icon: 'success'
+      })
+      return result.isConfirmed;
+    });
+
+    if(!isConfirmed){
+      Swal.fire({
+        title: 'Cancelled',
+        icon: 'error'
+      })
+    }else{
+      const status_id = 2;
+      const formData = new FormData();
+
+      formData.append('title', task.title);
+      formData.append('description', task.description);
+      formData.append('category_id', task.category_id);
+      formData.append('status_id', status_id);
+      formData.append('user_id', task.user_id);
+
+      await axios.put(`https://personaltaskmanager-s8fw.onrender.com/task/${id}`, formData, { headers: headers }).then(({data}) => {
+      
+      console.log(formData)
+      fetchTask();
+      });
     };
+    
   }
 
   return (
     <>
       <div className='flex flex-wrap'>
         {tasks.map(task => (
-          (task.user_id === response.user_id) && (
-          <TaskItem key={task.id} categories={categories} task={task} onEdit={handleEdit} onDelete={handleDeleteTask}/>
+          (task.user_id === response.user_id && task.status_id === 1) && (
+          <TaskItem key={task.id} categories={categories} task={task} onEdit={handleEdit} onDelete={handleDeleteTask} onDone={handleDone}/>
         )))}
         <button type="button" onClick={handleAddTask} className="flex items-center justify-center focus:outline-none rounded-lg p-0.5 me-2 mb-2">
           <IoAddCircleOutline className="text-gray-900 dark:text-white" style={{ fontSize: '2.5rem' }} />
@@ -290,7 +334,7 @@ const AllTask = () => {
   );
 };
 
-const TaskItem = ({ categories,task, onEdit, onDelete }) => {
+const TaskItem = ({ categories,task, onEdit, onDelete, onDone }) => {
   return (
     <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mr-4 mb-4">
       <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{task.title}</h2>
@@ -313,7 +357,8 @@ const TaskItem = ({ categories,task, onEdit, onDelete }) => {
         </button>
         {/* Checkbox */}
         <div className="inline-flex items-center justify-center">
-          <input id="default-checkbox" type="checkbox" value="" className="w-5 h-5   text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+          <input type="checkbox" value="" onClick={() => onDone(task)} 
+          className="w-5 h-5   text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
           <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Mark as Completed</label>
         </div>
       </div>
