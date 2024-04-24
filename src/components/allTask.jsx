@@ -197,7 +197,7 @@ const AllTask = () => {
 
   return (
     <>
-      <div className='flex flex-wrap'>
+      <div className='justify-center items-center flex flex-wrap'>
         {tasks.map(task => (
           (task.user_id === response.user_id) && (
           <TaskItem key={task.id} categories={categories} task={task} onEdit={handleEdit} onDelete={handleDeleteTask}/>
@@ -305,11 +305,11 @@ const TaskItem = ({ categories,task, onEdit, onDelete }) => {
       <div className="footer">
         {/* Edit button */}
         <button onClick={() => onEdit(task)} className="inline-flex items-center justify-center w-8 h-8 mr-2 text-black-500 rounded-full bg-transparent hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600">
-          <CiEdit size={18} />
+          <CiEdit size={25} />
         </button>
         {/* Trash button */}
         <button onClick={() => onDelete(task.id)} className="inline-flex items-center justify-center w-8 h-8 text-purple-500 rounded-full bg-transparent hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600">
-          <MdDelete size={18} />
+          <MdDelete size={25} />
         </button>
       </div>
     </div>
