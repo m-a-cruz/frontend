@@ -61,6 +61,7 @@ const AllTask = () => {
   //START ~~BUTTON FUNCITONS~~
   const handleEdit = (task) => {
     setEditingTask(task);
+    console.log(task);
     setIsAddingTask(false);
     setIsModalOpen(true);
   };
@@ -71,6 +72,7 @@ const AllTask = () => {
     setCategoryId(1);
     setStatusId(1);
     setUserId(response.user_id);
+    setDueDate('');
     
     setIsAddingTask(true);
     setIsModalOpen(true);
@@ -89,11 +91,8 @@ const AllTask = () => {
   const [category_id, setCategoryId] = useState('');
   const [status_id, setStatusId] = useState('');
   const [user_id, setUserId] = useState('');
+  const [due_date, setDueDate] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
-
-  const handleChange = (date) => {
-    setSelectedDate(date);
-  };
 
   const handleSubmitAddingTask = async (event) => {
     event.preventDefault();
@@ -104,6 +103,9 @@ const AllTask = () => {
     formData.append('category_id', category_id);
     formData.append('status_id', status_id);
     formData.append('user_id', response.user_id);
+    formData.append('due_date', due_date);
+
+    console.log(isAddingTask);
 
     await axios.post('https://personaltaskmanager-s8fw.onrender.com/task', formData, { headers: headers }).then(({data}) => {
       fetchTask();
@@ -112,6 +114,7 @@ const AllTask = () => {
       setCategoryId('');
       setStatusId('');
       setUserId('');
+      setDueDate('');
       setIsModalOpen(false);
 
       Swal.fire({
@@ -137,6 +140,8 @@ const AllTask = () => {
     event.preventDefault();
     const id = editingTask.id;
     const status_id = editingTask.status_id;
+    console.log(editingTask);
+
     const formData = new FormData();
 
     formData.append('title', editingTask.title);
@@ -144,6 +149,8 @@ const AllTask = () => {
     formData.append('category_id', editingTask.category_id);
     formData.append('status_id', editingTask.status_id);
     formData.append('user_id', editingTask.user_id);
+    formData.append('due_date', selectedDate);
+    console.log(editingTask);
 
     await axios.put(`https://personaltaskmanager-s8fw.onrender.com/task/${id}`, formData, { headers: headers }).then(({data}) => {
       Swal.fire({
@@ -290,8 +297,8 @@ const AllTask = () => {
                       <label htmlFor="date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
                       <DatePicker
                         id="date"
-                        selected={selectedDate}
-                        onChange={handleChange}
+                        selected={due_date || new Date()}
+                        onChange={event => setDueDate(event)}
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholderText="Select date"
                       />
@@ -331,12 +338,12 @@ const AllTask = () => {
                     <label htmlFor="date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
                       <DatePicker
                         id="date"
-                        selected={selectedDate}
-                        onChange={handleChange}
+                        selected={editingTask.due_date || new Date()}
+                        onChange={event => setEditingTask({ ...editingTask, due_date: event })}
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholderText="Select date"
                       />
-                      </div>
+                    </div>
                     <div>
                       <button type="submit" onClick={handleUpdateTask} className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         <svg className="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path></svg>

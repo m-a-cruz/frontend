@@ -55,7 +55,6 @@ const Completed = () => {
   };
 
   const onDelete = async (id) => {
-    console.log('delete', id);
     await axios.delete(`https://personaltaskmanager-s8fw.onrender.com/task/${id}`, { headers: headers });
     fetchAllData();
   }
@@ -74,6 +73,9 @@ const Completed = () => {
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Category
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Deadline
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Action
@@ -96,6 +98,9 @@ const Completed = () => {
                         <span key={category.id} value={category.id=task.category_id}>{category.category_description}</span>
                       )
                     ))}
+                  </td>
+                  <td class="px-6 py-4">
+                    {new Date(task.due_date).toLocaleDateString()}
                   </td>
                   <td class="px-6 py-4">
                   <button onClick={() => onDelete(task.id)} className="inline-flex items-center justify-center w-8 h-8 text-purple-500 rounded-full bg-transparent hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600">
