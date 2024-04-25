@@ -4,9 +4,8 @@ import { IoAddCircleOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
 import Swal from 'sweetalert2';
-import { data } from 'autoprefixer';
-
-
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const AllTask = () => {
   const [tasks, setTasks] = useState([]);
@@ -32,7 +31,6 @@ const AllTask = () => {
   const fetchTask = async () => {
     try {
       const { data } = await axios.get('https://personaltaskmanager-s8fw.onrender.com/tasks', { headers: headers });
-      // console.log(data);
       setTasks(data);
     } catch (error) {
       console.error('Error fetching tasks:', error);
@@ -42,7 +40,6 @@ const AllTask = () => {
   const fetchCategories = async () => {
     try {
       const { data } = await axios.get('https://personaltaskmanager-s8fw.onrender.com/categories', { headers: headers });
-      // console.log(data);
       setCategories(data);
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -52,7 +49,6 @@ const AllTask = () => {
   const fetchUsers = async () => {
     try {
       const {data} = await axios.get('https://personaltaskmanager-s8fw.onrender.com/users', { headers: headers });
-      // console.log(data);
       setUsers(data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -91,10 +87,14 @@ const AllTask = () => {
   const [category_id, setCategoryId] = useState('');
   const [status_id, setStatusId] = useState('');
   const [user_id, setUserId] = useState('');
-  
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const handleChange = (date) => {
+    setSelectedDate(date);
+  };
+
   const handleSubmitAddingTask = async (event) => {
     event.preventDefault();
-    console.log(isAddingTask);
 
     const formData = new FormData();
     formData.append('title', title);
@@ -102,7 +102,6 @@ const AllTask = () => {
     formData.append('category_id', category_id);
     formData.append('status_id', status_id);
     formData.append('user_id', response.user_id);
-
 
     await axios.post('https://personaltaskmanager-s8fw.onrender.com/task', formData, { headers: headers }).then(({data}) => {
       fetchTask();
@@ -121,7 +120,7 @@ const AllTask = () => {
     }).catch(({response}) => {
       if (response.status === 422) {
         setValidationErrors(response.data.errors);
-      }else{
+      } else {
         Swal.fire({
           title: 'Error',
           icon: 'error',
@@ -155,7 +154,7 @@ const AllTask = () => {
     }).catch((response) => {
       if (response.status === 422) {
         setValidationErrors(response.data.errors);
-      }else{
+      } else {
         Swal.fire({
           title: 'Error',
           icon: 'error',
@@ -192,8 +191,8 @@ const AllTask = () => {
       })
     }else{
       await axios.put(`https://personaltaskmanager-s8fw.onrender.com/task/${id}`, formData, { headers: headers }).then(({data}) => {
-      fetchTask();
-      setIsModalOpen(false);
+        fetchTask();
+        setIsModalOpen(false);
       });
     }
   }
@@ -231,9 +230,7 @@ const AllTask = () => {
       formData.append('user_id', task.user_id);
 
       await axios.put(`https://personaltaskmanager-s8fw.onrender.com/task/${id}`, formData, { headers: headers }).then(({data}) => {
-      
-      console.log(formData)
-      fetchTask();
+        fetchTask();
       });
     };
     
@@ -255,7 +252,7 @@ const AllTask = () => {
       {/* Modal */}
       {(editingTask || isAddingTask) && (
         <div className={`fixed top-0 left-0 z-50 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-75 ${isModalOpen ? 'visible' : 'hidden'}`}>
-          <div className="bg-white p-6 rounded-lg shadow-lg">
+          <div className="bg-white p-6 rounded-lg shadow-lg" style={{ width: '500px', maxHeight: '100vh' }}>
             {/* Modal content */}
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">{isAddingTask ? 'Add New Task' : 'Edit Task'}</h3>
@@ -273,15 +270,13 @@ const AllTask = () => {
                   <div className="grid gap-4 mb-4 grid-cols-2">
                     <div className="col-span-2">
                       <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-                      <input type="text" id="title" 
-                      value={title} onChange={(event) => setTitle(event.target.value)} 
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Title" required />
+                      <input type="text" id="title" value={title} onChange={(event) => setTitle(event.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Title" required />
                     </div>
                     <div className="col-span-2">
                       <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
                       <select id="category_id" defaultValue={category_id} value={category_id} onChange={(event) => setCategoryId(event.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                         {categories.map((category) => (
-                          <option key={category.id} value={category.id} >{category.category_description}</option>
+                          <option key={category.id} value={category.id}>{category.category_description}</option>
                         ))}
                       </select>
                     </div>
@@ -289,13 +284,26 @@ const AllTask = () => {
                       <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
                       <textarea id="description" value={description} onChange={(event) => setDescription(event.target.value)} rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Description"></textarea>
                     </div>
+                    <div className="col-span-2">
+                      <label htmlFor="date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
+                      <DatePicker
+                        id="date"
+                        selected={selectedDate}
+                        onChange={handleChange}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholderText="Select date"
+                      />
+                    </div>
                     <div>
                       <button type="submit" onClick={handleSubmitAddingTask} className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        <svg className="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path></svg>
+                        <svg className="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                          <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path>
+                        </svg>
                         Confirm
                       </button>
                     </div>
                   </div>
+
                 </>
               )}
               {editingTask && (
@@ -346,22 +354,22 @@ const TaskItem = ({ categories,task, onEdit, onDelete, onDone }) => {
         )
       ))}
       </p>
-      <div className="footer">
-        {/* Edit button */}
-        <button onClick={() => onEdit(task)} className="inline-flex items-center justify-center w-8 h-8 mr-2 text-black-500 rounded-full bg-transparent hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600">
-          <CiEdit size={25} />
-        </button>
-        {/* Trash button */}
-        <button onClick={() => onDelete(task.id)} className="inline-flex items-center justify-center w-8 h-8 text-purple-500 rounded-full bg-transparent hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600">
-          <MdDelete size={25} />
-        </button>
-        {/* Checkbox */}
-        <div className="inline-flex items-center justify-center">
-          <input type="checkbox" value="" onClick={() => onDone(task)} 
-          className="w-5 h-5   text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-          <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Mark as Completed</label>
-        </div>
-      </div>
+      <div className="footer flex items-center">
+  {/* Edit button */}
+  <button onClick={() => onEdit(task)} className="inline-flex items-center justify-center w-8 h-8 mr-2 text-black-500 rounded-full bg-transparent hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600">
+    <CiEdit size={25} />
+  </button>
+  {/* Trash button */}
+  <button onClick={() => onDelete(task.id)} className="inline-flex items-center justify-center w-8 h-8 text-purple-500 rounded-full bg-transparent hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600">
+    <MdDelete size={25} />
+  </button>
+  {/* Checkbox for done */}
+  <div className="flex items-center">
+    <input type="checkbox" onClick={() => onDone(task)} className="form-checkbox h-5 w-5 text-purple-600" />
+    <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Mark as Completed</label>
+  </div>
+</div>
+
     </div>
   );
 };

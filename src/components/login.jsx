@@ -14,7 +14,7 @@ import {
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import ParticlesComponent from './particles';
 
 const Login = () => {
 
@@ -77,7 +77,16 @@ const Login = () => {
   };
 
   return (
+    
+    <div style={{
+      backgroundImage: 'linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%)',
+      minHeight: '100vh', // Ensure the gradient covers the entire viewport
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}>
     <div className='flex justify-center items-center h-full'>
+    <ParticlesComponent id="particles" />
     <Card className="w-96 ">
       <CardHeader
         variant="gradient"
@@ -119,6 +128,7 @@ const Login = () => {
       </CardFooter>
     </Card>
     </div>
+  </div>
   );
 }
 
