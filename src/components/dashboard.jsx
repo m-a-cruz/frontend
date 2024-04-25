@@ -7,6 +7,7 @@ import {
   CardBody,
   Typography,
   Avatar,
+  CardFooter,
 } from "@material-tailwind/react";
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
@@ -178,18 +179,27 @@ const Dashboard = () => {
       )}
     </div>
 
-    <div className="flex justify-end w-full p-4">
-  <div className="w-3/5">
-    <Calendar
-      localizer={localizer}
-      events={events}
-      startAccessor="start"
-      endAccessor="end"
-      style={{ margin: '50px auto' }}
-    />
-    {/* Add your calendar component here */}
+    <div className="flex justify-end">
+  <div className="w-86">
+    <Card>
+      <CardBody className="flex flex-col justify-between">
+        <div>
+          {/* Content of the card */}
+        </div>
+        <div className="w-full h-96 mt-auto">
+          <Calendar
+            localizer={localizer}
+            // events={events}
+            startAccessor="start"
+            endAccessor="end"
+            style={{ margin: 'auto' }}
+          />
+        </div>
+      </CardBody>
+    </Card>
   </div>
 </div>
+
   <div className="container mr-5">
   <div className="relative max-w-sm w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
     <div className="absolute top-0 right-0 -mt-4 -mr-4">
@@ -200,7 +210,7 @@ const Dashboard = () => {
     <div className="flex justify-between mb-3">
       <div className="flex items-center">
         <div className="flex justify-center items-center">
-          <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">Your team's progress</h5>
+          <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">Your progress⏳</h5>
         </div>
       </div>
     </div>
