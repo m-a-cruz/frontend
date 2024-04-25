@@ -22,7 +22,6 @@ const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
   const [categories, setCategories] = useState([]);
   const [users, setUsers] = useState([]);
-  const [user, setUser] = useState(null);
   const response = JSON.parse(localStorage.getItem('token'));
   const headers = {
     Authorization: response.token,
@@ -97,7 +96,6 @@ const Dashboard = () => {
     }
     fetchTask();
     fetchUsers();
-    fetchUser();
   }, []);
 
   //START ~~FETCHING DATA~~
@@ -109,19 +107,6 @@ const Dashboard = () => {
       console.error('Error fetching tasks:', error);
     }
   }
-   const fetchUser = async () => {
-    try {
-      try {
-        const {data} = await axios.get('https://personaltaskmanager-s8fw.onrender.com/user', { headers: headers });
-        setUser(data);
-      } catch (error) {
-        console.error('Error fetching users:', error);
-      }
-    } catch (error) {
-      console.error('Error fetching user:', error);
-    }
-  };
-
   const fetchUsers = async () => {
     try {
       const {data} = await axios.get('https://personaltaskmanager-s8fw.onrender.com/users', { headers: headers });
@@ -150,7 +135,8 @@ const Dashboard = () => {
     <>
 
 <div className="container mx-auto ml-4">
-      {user && (
+      {users.map(user => ( 
+        (user.id === response.user_id) && (
         <Card
           shadow={false}
           className="relative grid h-[15rem] w-full max-w-[60rem] items-end justify-center overflow-hidden text-center mb-8"
@@ -177,7 +163,7 @@ const Dashboard = () => {
           
           </CardBody>
         </Card>
-      )}
+      )))}
     </div>
 
     <div className="flex justify-end">
