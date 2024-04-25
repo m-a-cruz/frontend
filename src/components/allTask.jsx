@@ -4,7 +4,6 @@ import { IoAddCircleOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
 import Swal from 'sweetalert2';
-import { data } from 'autoprefixer';
 
 
 
@@ -191,10 +190,8 @@ const AllTask = () => {
         icon: 'error'
       })
     }else{
-      await axios.put(`https://personaltaskmanager-s8fw.onrender.com/task/${id}`, formData, { headers: headers }).then(({data}) => {
+      await axios.delete(`https://personaltaskmanager-s8fw.onrender.com/task/${id}`, { headers: headers });
       fetchTask();
-      setIsModalOpen(false);
-      });
     }
   }
 

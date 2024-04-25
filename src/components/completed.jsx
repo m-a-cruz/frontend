@@ -1,301 +1,146 @@
-import React from 'react'
-import Navigation from './navigation';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Button } from "@material-tailwind/react";
+import { MdDelete } from "react-icons/md";
 
-const completed = () => {
+const Completed = () => {
+  const [tasks, setTasks] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [active, setActive] = useState(1);
+  const [pageTasks, setPageTasks] = useState([]);
+  const response = JSON.parse(localStorage.getItem('token'));
+  const headers = {
+    Authorization: response.token,
+    'Content-Type': 'application/json',
+  };
+
+  const fetchAllData = async () => {
+    try {
+      if (!response || !response.token) {
+        throw new Error("Invalid token in local storage.");
+      }
+      const tasksResponse = await axios.get('https://personaltaskmanager-s8fw.onrender.com/tasks', { headers });
+      const categoriesResponse = await axios.get('https://personaltaskmanager-s8fw.onrender.com/categories', { headers });
+      const usersResponse = await axios.get('https://personaltaskmanager-s8fw.onrender.com/users', { headers });
+      setTasks(tasksResponse.data);
+      setCategories(categoriesResponse.data);
+      setUsers(usersResponse.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      // Handle error (e.g., show an error message to the user)
+    }
+  };
+
+  useEffect(() => {
+    fetchAllData();
+  }, []);
+
+  useEffect(() => {
+    const startIndex = (active - 1) * 5;
+    const endIndex = startIndex + 5;
+    setPageTasks(tasks.slice(startIndex, endIndex));
+  }, [tasks, active]);
+
+  const next = () => {
+    if (active < Math.ceil(tasks.length / 5)) {
+      setActive(active + 1);
+    }
+  };
+
+  const prev = () => {
+    if (active > 1) {
+      setActive(active - 1);
+    }
+  };
+
+  const onDelete = async (id) => {
+    console.log('delete', id);
+    await axios.delete(`https://personaltaskmanager-s8fw.onrender.com/task/${id}`, { headers: headers });
+    fetchAllData();
+  }
+
   return (
     <>
-    
-
-          <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-              <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                      <tr>
-                          <th scope="col" class="p-4">
-                              <div class="flex items-center">
-                                  <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                  <label for="checkbox-all-search" class="sr-only">checkbox</label>
-                              </div>
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                              Product name
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                              Color
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                              Category
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                              Price
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                              Action
-                          </th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                          <td class="w-4 p-4">
-                              <div class="flex items-center">
-                                  <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                  <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                              </div>
-                          </td>
-                          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              Apple MacBook Pro 17"
-                          </th>
-                          <td class="px-6 py-4">
-                              Silver
-                          </td>
-                          <td class="px-6 py-4">
-                              Laptop
-                          </td>
-                          <td class="px-6 py-4">
-                              $2999
-                          </td>
-                          <td class="px-6 py-4">
-                              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                          </td>
-                      </tr>
-                      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                          <td class="w-4 p-4">
-                              <div class="flex items-center">
-                                  <input id="checkbox-table-search-2" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                  <label for="checkbox-table-search-2" class="sr-only">checkbox</label>
-                              </div>
-                          </td>
-                          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              Microsoft Surface Pro
-                          </th>
-                          <td class="px-6 py-4">
-                              White
-                          </td>
-                          <td class="px-6 py-4">
-                              Laptop PC
-                          </td>
-                          <td class="px-6 py-4">
-                              $1999
-                          </td>
-                          <td class="px-6 py-4">
-                              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                          </td>
-                      </tr>
-                      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                          <td class="w-4 p-4">
-                              <div class="flex items-center">
-                                  <input id="checkbox-table-search-3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                  <label for="checkbox-table-search-3" class="sr-only">checkbox</label>
-                              </div>
-                          </td>
-                          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              Magic Mouse 2
-                          </th>
-                          <td class="px-6 py-4">
-                              Black
-                          </td>
-                          <td class="px-6 py-4">
-                              Accessories
-                          </td>
-                          <td class="px-6 py-4">
-                              $99
-                          </td>
-                          <td class="px-6 py-4">
-                              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                          </td>
-                      </tr>
-                      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                          <td class="w-4 p-4">
-                              <div class="flex items-center">
-                                  <input id="checkbox-table-search-3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                  <label for="checkbox-table-search-3" class="sr-only">checkbox</label>
-                              </div>
-                          </td>
-                          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              Apple Watch
-                          </th>
-                          <td class="px-6 py-4">
-                              Black
-                          </td>
-                          <td class="px-6 py-4">
-                              Watches
-                          </td>
-                          <td class="px-6 py-4">
-                              $199
-                          </td>
-                          <td class="px-6 py-4">
-                              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                          </td>
-                      </tr>
-                      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                          <td class="w-4 p-4">
-                              <div class="flex items-center">
-                                  <input id="checkbox-table-search-3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                  <label for="checkbox-table-search-3" class="sr-only">checkbox</label>
-                              </div>
-                          </td>
-                          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              Apple iMac
-                          </th>
-                          <td class="px-6 py-4">
-                              Silver
-                          </td>
-                          <td class="px-6 py-4">
-                              PC
-                          </td>
-                          <td class="px-6 py-4">
-                              $2999
-                          </td>
-                          <td class="px-6 py-4">
-                              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                          </td>
-                      </tr>
-                      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                          <td class="w-4 p-4">
-                              <div class="flex items-center">
-                                  <input id="checkbox-table-search-3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                  <label for="checkbox-table-search-3" class="sr-only">checkbox</label>
-                              </div>
-                          </td>
-                          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              Apple AirPods
-                          </th>
-                          <td class="px-6 py-4">
-                              White
-                          </td>
-                          <td class="px-6 py-4">
-                              Accessories
-                          </td>
-                          <td class="px-6 py-4">
-                              $399
-                          </td>
-                          <td class="px-6 py-4">
-                              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                          </td>
-                      </tr>
-                      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                          <td class="w-4 p-4">
-                              <div class="flex items-center">
-                                  <input id="checkbox-table-search-3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                  <label for="checkbox-table-search-3" class="sr-only">checkbox</label>
-                              </div>
-                          </td>
-                          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              iPad Pro
-                          </th>
-                          <td class="px-6 py-4">
-                              Gold
-                          </td>
-                          <td class="px-6 py-4">
-                              Tablet
-                          </td>
-                          <td class="px-6 py-4">
-                              $699
-                          </td>
-                          <td class="px-6 py-4">
-                              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                          </td>
-                      </tr>
-                      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                          <td class="w-4 p-4">
-                              <div class="flex items-center">
-                                  <input id="checkbox-table-search-3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                  <label for="checkbox-table-search-3" class="sr-only">checkbox</label>
-                              </div>
-                          </td>
-                          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              Magic Keyboard
-                          </th>
-                          <td class="px-6 py-4">
-                              Black
-                          </td>
-                          <td class="px-6 py-4">
-                              Accessories
-                          </td>
-                          <td class="px-6 py-4">
-                              $99
-                          </td>
-                          <td class="px-6 py-4">
-                              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                          </td>
-                      </tr>
-                      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                          <td class="w-4 p-4">
-                              <div class="flex items-center">
-                                  <input id="checkbox-table-search-3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                  <label for="checkbox-table-search-3" class="sr-only">checkbox</label>
-                              </div>
-                          </td>
-                          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              Smart Folio iPad Air
-                          </th>
-                          <td class="px-6 py-4">
-                              Blue
-                          </td>
-                          <td class="px-6 py-4">
-                              Accessories
-                          </td>
-                          <td class="px-6 py-4">
-                              $79
-                          </td>
-                          <td class="px-6 py-4">
-                              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                          </td>
-                      </tr>
-                      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                          <td class="w-4 p-4">
-                              <div class="flex items-center">
-                                  <input id="checkbox-table-search-3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                  <label for="checkbox-table-search-3" class="sr-only">checkbox</label>
-                              </div>
-                          </td>
-                          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              AirTag
-                          </th>
-                          <td class="px-6 py-4">
-                              Silver
-                          </td>
-                          <td class="px-6 py-4">
-                              Accessories
-                          </td>
-                          <td class="px-6 py-4">
-                              $29
-                          </td>
-                          <td class="px-6 py-4">
-                              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                          </td>
-                      </tr>
-                  </tbody>
-              </table>
-              <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">
-                  <span class="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">Showing <span class="font-semibold text-gray-900 dark:text-white">1-10</span> of <span class="font-semibold text-gray-900 dark:text-white">1000</span></span>
-                  <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
-                      <li>
-                          <a href="#" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
-                      </li>
-                      <li>
-                          <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
-                      </li>
-                      <li>
-                          <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-                      </li>
-                      <li>
-                          <a href="#" aria-current="page" class="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
-                      </li>
-                      <li>
-                          <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">4</a>
-                      </li>
-                      <li>
-                          <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">5</a>
-                      </li>
-                      <li>
-                  <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
-                      </li>
-                  </ul>
-              </nav>
-          </div>
-
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Title
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Description
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Category
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Action
+                </th>
+            </tr>
+          </thead>
+          <tbody>
+            {pageTasks.map((task) => (
+              (task.status_id === 2) && (
+                <tr key={task.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                  <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {task.title}
+                  </th>
+                  <td class="px-6 py-4">
+                    {task.description}
+                  </td>
+                  <td class="px-6 py-4">
+                    {categories.map((category) => (
+                      (category.id === task.category_id) && (
+                        <span key={category.id} value={category.id=task.category_id}>{category.category_description}</span>
+                      )
+                    ))}
+                  </td>
+                  <td class="px-6 py-4">
+                  <button onClick={() => onDelete(task.id)} className="inline-flex items-center justify-center w-8 h-8 text-purple-500 rounded-full bg-transparent hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600">
+                    <MdDelete size={25} />
+                  </button>
+                  </td>
+                </tr>
+              )
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="flex items-center gap-4">
+        <Button
+          variant="text"
+          className="flex items-center gap-2 rounded-full"
+          onClick={prev}
+          disabled={active === 1 || tasks.length === 0}
+        >
+          Previous
+        </Button>
+        <div className="flex items-center gap-2">
+          {Array.from({ length: Math.ceil(tasks.length / 5) }, (_, index) => (
+            <Button
+              key={index + 1}
+              onClick={() => setActive(index + 1)}
+              variant={active === index + 1 ? "filled" : "text"}
+              color="gray"
+              className="rounded-full"
+            >
+              {index + 1}
+            </Button>
+          ))}
+        </div>
+        <Button
+          variant="text"
+          className="flex items-center gap-2 rounded-full"
+          onClick={next}
+          disabled={active === Math.ceil(tasks.length / 5) || tasks.length === 0}
+        >
+          Next
+        </Button>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default completed;
+export default Completed;
