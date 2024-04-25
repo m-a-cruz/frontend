@@ -4,6 +4,8 @@ import { IoAddCircleOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
 import Swal from 'sweetalert2';
+
+
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -191,8 +193,8 @@ const AllTask = () => {
       })
     }else{
       await axios.put(`https://personaltaskmanager-s8fw.onrender.com/task/${id}`, formData, { headers: headers }).then(({data}) => {
-        fetchTask();
-        setIsModalOpen(false);
+      fetchTask();
+      setIsModalOpen(false);
       });
     }
   }
