@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ApexCharts from 'apexcharts';
 import axios from 'axios';
 
+
 const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
   const [categories, setCategories] = useState([]);
