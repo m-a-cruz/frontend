@@ -34,9 +34,7 @@ const ParticlesComponent = (props) => {
   const options = useMemo(
     () => ({
       background: {
-        color: {
-          value: "#1E2F97",
-        },
+        image: 'linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%)'
       },
       fpsLimit: 120,
       interactivity: {

@@ -9,6 +9,8 @@ import {
   Alert,
 } from '@material-tailwind/react';
 import { useNavigate } from 'react-router-dom';
+import ParticlesComponent from './particles';
+
 
 
 const Register = () => {
@@ -42,29 +44,34 @@ const Register = () => {
   };
 
   return (
+    
     <div className='flex justify-center items-center h-full'>
+      <ParticlesComponent id="particles" />
       <Card color="transparent" shadow={false}>
-        <Typography variant="h4" color="blue-gray">
+        <Typography variant="h1" color="blue-gray">
           Sign Up
         </Typography>
         <Typography color="gray" className="mt-1 font-normal">
           Nice to meet you! Enter your details to register.
         </Typography>
-        <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
-          <div className="mb-1 flex flex-col gap-6">
-            <Typography variant="h6" color="blue-gray" className="-mb-3">
-              Name
-            </Typography>
-            <Input
-              size="lg"
-              placeholder="name"
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              value={name} onChange={(e) => setName(e.target.value)}
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
-            />
-            <Typography variant="h6" color="blue-gray" className="-mb-3">
+        {/* Wrap the form inside a div with a white background */}
+        <div className="bg-white rounded-lg p-6">
+          <form className="mt-2">
+            <div className="mb-1 flex flex-col gap-6">
+              <Typography variant="h6" color="blue-gray" className="-mb-3">
+                Name
+              </Typography>
+              <Input
+                size="lg"
+                placeholder="name"
+                className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                labelProps={{
+                  className: "before:content-none after:content-none",
+                }}
+              />
+               <Typography variant="h6" color="blue-gray" className="-mb-3">
               Email
             </Typography>
             <Input
@@ -88,7 +95,7 @@ const Register = () => {
                 className: "before:content-none after:content-none",
               }}
             />
-            <Typography variant="h6" color="blue-gray" className="-mb-3">
+             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Password
             </Typography>
             <Input
@@ -101,33 +108,34 @@ const Register = () => {
                 className: "before:content-none after:content-none",
               }}
             />
-          </div>
-          <Checkbox
-            label={
-              <Typography
-                variant="small"
-                color="gray"
-                className="flex items-center font-normal"
-              >
-                I agree the
-                <a
-                  href="#"
-                  className="font-medium transition-colors hover:text-gray-900"
+              {/* Other form inputs */}
+            </div>
+            <Checkbox
+              label={
+                <Typography
+                  variant="small"
+                  color="gray"
+                  className="flex items-center font-normal"
                 >
-                  &nbsp;Terms and Conditions
-                </a>
-              </Typography>
-            }
-            containerProps={{ className: "-ml-2.5" }}
-          />
-          <Button className="mt-6" fullWidth onClick={handleRegister} >
-            Sign Up
-          </Button>
-          <Typography color="gray" className="mt-4 text-center font-normal">
-            Already have an account?{' '}
-              Sign In
-          </Typography>
-        </form>
+                  I agree the
+                  <a
+                    href="#"
+                    className="font-medium transition-colors hover:text-gray-900"
+                  >
+                    &nbsp;Terms and Conditions
+                  </a>
+                </Typography>
+              }
+              containerProps={{ className: "-ml-2.5" }}
+            />
+            <Button className="mt-6" fullWidth onClick={handleRegister}>
+              Sign Up
+            </Button>
+            <Typography color="gray" className="mt-4 text-center font-normal">
+              Already have an account? Sign In
+            </Typography>
+          </form>
+        </div>
       </Card>
     </div>
   );
