@@ -8,6 +8,11 @@ import {
   Typography,
   Avatar,
 } from "@material-tailwind/react";
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import moment from 'moment';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+
+
  
 
 
@@ -126,7 +131,15 @@ const Dashboard = () => {
   const toDo = tasks.length;
   const inProgress = tasks.filter(task => task.status_id === 1).length;
   const completed = tasks.filter(task => task.status_id === 2).length;
-
+  const localizer = momentLocalizer(moment);
+  const events = [
+    {
+      start: new Date(),
+      end: new Date(),
+      title: 'Sample Event'
+    },
+    // Add more events as needed
+  ];
 
 
 
@@ -165,8 +178,18 @@ const Dashboard = () => {
       )}
     </div>
 
-
-
+    <div className="flex justify-end w-full p-4">
+  <div className="w-3/5">
+    <Calendar
+      localizer={localizer}
+      events={events}
+      startAccessor="start"
+      endAccessor="end"
+      style={{ margin: '50px auto' }}
+    />
+    {/* Add your calendar component here */}
+  </div>
+</div>
   <div className="container mr-5">
   <div className="relative max-w-sm w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
     <div className="absolute top-0 right-0 -mt-4 -mr-4">
