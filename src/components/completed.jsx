@@ -4,12 +4,12 @@ import { Button } from "@material-tailwind/react";
 import { MdDelete } from "react-icons/md";
 
 const Completed = () => {
+  const response = JSON.parse(localStorage.getItem('token'));
   const [tasks, setTasks] = useState([]);
   const [categories, setCategories] = useState([]);
   const [users, setUsers] = useState([]);
-  const [active, setActive] = useState(1);
+  const [active, setActive] = useState(3);
   const [pageTasks, setPageTasks] = useState([]);
-  const response = JSON.parse(localStorage.getItem('token'));
   const headers = {
     Authorization: response.token,
     'Content-Type': 'application/json',
@@ -26,6 +26,8 @@ const Completed = () => {
       setTasks(tasksResponse.data);
       setCategories(categoriesResponse.data);
       setUsers(usersResponse.data);
+
+      console.log(tasksResponse.data);
     } catch (error) {
       console.error('Error fetching data:', error);
       // Handle error (e.g., show an error message to the user)
@@ -84,7 +86,7 @@ const Completed = () => {
           </thead>
           <tbody>
             {pageTasks.map((task) => (
-              (task.status_id === 2) && (
+              (task.status_id === 2 && task.user_id === response.user_id) && (
                 <tr key={task.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                   <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {task.title}

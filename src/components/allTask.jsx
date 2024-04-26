@@ -61,6 +61,7 @@ const AllTask = () => {
   //START ~~BUTTON FUNCITONS~~
   const handleEdit = (task) => {
     setEditingTask(task);
+    setSelectedDate(task.due_date);
     console.log(task);
     setIsAddingTask(false);
     setIsModalOpen(true);
@@ -72,7 +73,7 @@ const AllTask = () => {
     setCategoryId(1);
     setStatusId(1);
     setUserId(response.user_id);
-    setDueDate('');
+    setDueDate(new Date());
     
     setIsAddingTask(true);
     setIsModalOpen(true);
@@ -92,7 +93,7 @@ const AllTask = () => {
   const [status_id, setStatusId] = useState('');
   const [user_id, setUserId] = useState('');
   const [due_date, setDueDate] = useState('');
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState('');
 
   const handleSubmitAddingTask = async (event) => {
     event.preventDefault();
@@ -103,9 +104,8 @@ const AllTask = () => {
     formData.append('category_id', category_id);
     formData.append('status_id', status_id);
     formData.append('user_id', response.user_id);
-    formData.append('due_date', due_date);
+    formData.append('due_date', due_date.toISOString());
 
-    console.log(isAddingTask);
 
     await axios.post('https://personaltaskmanager-s8fw.onrender.com/task', formData, { headers: headers }).then(({data}) => {
       fetchTask();
@@ -149,7 +149,7 @@ const AllTask = () => {
     formData.append('category_id', editingTask.category_id);
     formData.append('status_id', editingTask.status_id);
     formData.append('user_id', editingTask.user_id);
-    formData.append('due_date', selectedDate);
+    formData.append('due_date', selectedDate.toISOString());
     console.log(editingTask);
 
     await axios.put(`https://personaltaskmanager-s8fw.onrender.com/task/${id}`, formData, { headers: headers }).then(({data}) => {
@@ -158,6 +158,7 @@ const AllTask = () => {
         icon: 'success',
         text: data.message
       })
+      setSelectedDate('');
       fetchTask();
       setIsModalOpen(false);
     }).catch((response) => {
@@ -207,6 +208,7 @@ const AllTask = () => {
   }
 
   const handleDone = async (task) => {
+    console.log(task);
     const id = task.id;
     const isConfirmed = await Swal.fire({
       title: 'Are you sure?',
@@ -237,6 +239,7 @@ const AllTask = () => {
       formData.append('category_id', task.category_id);
       formData.append('status_id', status_id);
       formData.append('user_id', task.user_id);
+      formData.append('due_date', task.due_date);
 
       await axios.put(`https://personaltaskmanager-s8fw.onrender.com/task/${id}`, formData, { headers: headers }).then(({data}) => {
         fetchTask();
@@ -338,8 +341,8 @@ const AllTask = () => {
                     <label htmlFor="date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
                       <DatePicker
                         id="date"
-                        selected={editingTask.due_date || new Date()}
-                        onChange={event => setEditingTask({ ...editingTask, due_date: event })}
+                        selected={selectedDate || new Date()}
+                        onChange={event => setSelectedDate(event )}
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholderText="Select date"
                       />

@@ -115,9 +115,11 @@ const Dashboard = () => {
       console.error('Error fetching users:', error);
     }
   }
-  const toDo = tasks.length;
-  const inProgress = tasks.filter(task => task.status_id === 1).length;
-  const completed = tasks.filter(task => task.status_id === 2).length;
+
+  
+  const toDo = tasks.filter(task => task.user_id === response.user_id).length;
+  const inProgress = tasks.filter(task => task.status_id === 1 && task.user_id === response.user_id).length;
+  const completed = tasks.filter(task => task.status_id === 2 && task.user_id === response.user_id).length;
   const localizer = momentLocalizer(moment);
   const events = [
     {

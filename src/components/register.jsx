@@ -68,14 +68,16 @@ const Register = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 labelProps={{
-                  className: "before:content-none after:content-none",
+                  className: "before:content-none after:content-none"
                 }}
+                required
               />
                <Typography variant="h6" color="blue-gray" className="-mb-3">
               Email
             </Typography>
             <Input
               size="lg"
+              required
               placeholder="name@mail.com"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               value={email} onChange={(e) => setEmail(e.target.value)}
@@ -88,6 +90,7 @@ const Register = () => {
             </Typography>
             <Input
               size="lg"
+              required
               placeholder="name@mail.com"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               value={username} onChange={(e) => setUsername(e.target.value)}
