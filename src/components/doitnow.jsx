@@ -41,15 +41,20 @@ const doitnow = ({ handleViewModalShow }) => {
 
   return (
     <div className='flex flex-wrap'>
-        {tasks.map(task => (
-          (task.user_id === response.user_id && task.status_id === 1 && new Date(task.due_date).toDateString() === new Date().toDateString()) && (
+      {tasks.map(task => (
+        (task.user_id === response.user_id && task.status_id === 1 && new Date(task.due_date).toDateString() === new Date().toDateString()) ? (
           <TaskItem key={task.id} categories={categories} task={task} />
-        )))}
-       
-      </div>
+        ) : null
+      ))}
+      {tasks.every(task => new Date(task.due_date).toDateString() !== new Date().toDateString()) && (
+        <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mr-4 mb-4">
+          THERE'S NO DUE FOR TODAY
+        </div>
+      )}
+    </div>
   );
 };
-const TaskItem = ({ categories,task, onEdit, onDelete, onDone }) => {
+const TaskItem = ({ categories,task}) => {
   return (
     <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mr-4 mb-4">
       <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{task.title}</h2>
